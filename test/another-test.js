@@ -5,7 +5,7 @@ var assert = require('assert');
 describe('assignment-test', function() {
     let driver 
 
-    describe('login', function () {
+    describe('login page', function () {
         beforeEach(async function () {
             driver = await new Builder().forBrowser('chrome').build();
             await driver.get('https://flyingdogz.github.io/');
@@ -33,6 +33,43 @@ describe('assignment-test', function() {
         })
     
         afterEach(async function () {
+            await driver.sleep(3000);
+            await driver.quit();
+        });
+    })
+
+    describe('List page', function () {
+        before(async function () {
+            driver = await new Builder().forBrowser('chrome').build();
+            await driver.get('https://flyingdogz.github.io/');
+            const usernameSelector = By.name('username');
+            const passwordSelector = By.name('password')
+            await driver.wait(until.elementsLocated(usernameSelector), 5000);
+            await driver.wait(until.elementsLocated(passwordSelector), 5000);
+            await driver.findElement(usernameSelector).sendKeys('admin');
+            await driver.findElement(passwordSelector).sendKeys('1234', Key.RETURN);
+        })
+    
+        it('Add button should be enabled when form is not complete', async function() {
+            const newUsername = driver.findElement(By.name('newUserName')).getText();
+            const newPassword = driver.findElement(By.name('newUserPassword')).getText();
+            const addButton = driver.findElement(By.className('btn-primary'))
+
+            if (newUsername == "" || newPassword == "") {
+                assert.equal(false, await addButton.isEnabled());
+            }
+
+        })
+
+        it('Add user work correctly', async function() {
+            // const newUsername = driver.findElement(By.name('newUserName')).sendKeys('satang');
+            // const newPassword = driver.findElement(By.name('newUserPassword')).sendKeys('1234', Key.RETURN);
+            // const userName = driver.findElements(By.css('tr')).findElement(By.css('td')).getText();
+            console.log('work')
+            
+        })
+    
+        after(async function () {
             await driver.sleep(3000);
             await driver.quit();
         });
