@@ -51,9 +51,9 @@ describe('assignment-test', function() {
         })
     
         it('Add button should be enabled when form is not complete', async function() {
-            const newUsername = driver.findElement(By.name('newUserName')).getText();
-            const newPassword = driver.findElement(By.name('newUserPassword')).getText();
-            const addButton = driver.findElement(By.className('btn-primary'))
+            const newUsername = await driver.findElement(By.name('newUserName')).getText();
+            const newPassword = await driver.findElement(By.name('newUserPassword')).getText();
+            const addButton = await driver.findElement(By.className('btn-primary'))
 
             if (newUsername == "" || newPassword == "") {
                 assert.equal(false, await addButton.isEnabled());
@@ -62,11 +62,18 @@ describe('assignment-test', function() {
         })
 
         it('Add user work correctly', async function() {
-            // const newUsername = driver.findElement(By.name('newUserName')).sendKeys('satang');
-            // const newPassword = driver.findElement(By.name('newUserPassword')).sendKeys('1234', Key.RETURN);
-            // const userName = driver.findElements(By.css('tr')).findElement(By.css('td')).getText();
-            console.log('work')
-            
+            const userNameTobeDeleted = 'satang'
+            await driver.findElement(By.name('newUserName')).sendKeys(userNameTobeDeleted);
+            await driver.findElement(By.name('newUserPassword')).sendKeys('1234', Key.RETURN);
+            let trs = await driver.findElements(By.css('tr'))
+            await trs[trs.length - 1].findElement(By.className('glyphicon-trash')).click()
+            let currentUsers = await driver.findElements(By.css('tr'))
+            currentUsers = currentUsers.map(function(element) {
+                return element.findElement(By.css('td')).getText()
+            })
+            currentUsers = await Promise.all(currentUsers)
+            assert.equal(false, currentUsers.includes(userNameTobeDeleted))
+           
         })
     
         after(async function () {
