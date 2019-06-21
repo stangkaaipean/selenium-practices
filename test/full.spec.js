@@ -97,13 +97,12 @@ describe('assignment-test', function() {
         await driver.findElement(By.name('newUserPassword')).sendKeys('1234', Key.RETURN);
         await driver.findElement(By.name('newUserName')).sendKeys(uniqueUser);
         await driver.findElement(By.name('newUserPassword')).sendKeys('1234', Key.RETURN);
-        let trs = await driver.findElements(By.css('tr'))
         let currentUsers = await driver.findElements(By.css('tr'))
         currentUsers = currentUsers.map(function (element) {
           return element.findElement(By.css('td')).getText()
         })
         currentUsers = await Promise.all(currentUsers)
-        assert.equal(false, currentUsers.includes(uniqueUser))
+        assert.equal(false, currentUsers.pop(uniqueUser).includes(uniqueUser))
 
       })
     
