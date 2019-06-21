@@ -8,36 +8,27 @@ class LoginPage extends Page {
         await super.open('https://flyingdogz.github.io/')
     }
 
-    get username() {
-        return (async () => {
-            await super.driver.wait(until.elementsLocated(By.name('username')), 5000);
-            return await super.driver.findElement(By.name('password'))
-        })
+    async username() {
+        await this.driver.wait(until.elementsLocated(By.name('username')), 5000);
+        return await this.driver.findElement(By.name('username'))
     }
 
-    get password() {
-        return (async () => {
-            await super.driver.wait(until.elementsLocated(By.name('password')), 5000);
-            return await super.driver.findElement(By.name('password'))
-        })
+    async password() {
+        await this.driver.wait(until.elementsLocated(By.name('password')), 5000);
+        return await this.driver.findElement(By.name('password'))
     }
 
-    get alert() {
-        return (async () => {
-            await super.driver.wait(until.elementsLocated(By.className('alert-danger')), 5000);
-            return await super.driver.findElement(By.className('alert-danger'))
-        })
-
+    async tag_alert() {
+        await  this.driver.wait(until.elementsLocated(By.className('alert-danger')), 5000);
+        return await this.driver.findElement(By.className('alert-danger'))
     }
 
-    get currentUrl() {
-        return (async () => {
-            return await super.driver.getCurrentUrl()
-        })
+    async currentUrl() {
+        return await this.driver.getCurrentUrl()
     }
 
     exit() {
-        super.driver.quit()
+        this.driver.quit()
     }
 }
 

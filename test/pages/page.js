@@ -7,7 +7,7 @@ class Page {
 
     async open(path) {
         this.driver = await new Builder().forBrowser('chrome').build();
-        await driver.get(path);
+        await this.driver.get(path);
     }
 }
 
